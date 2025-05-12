@@ -1,38 +1,20 @@
 ---
 name: gitlab-ci-language-server
 description: Language Server Protocol (LSP) server for GitLab CI YAML files, providing syntax validation, autocompletion, hover, symbols, and formatting.
-version: 1.0.0
-license: Apache-2.0
+licenses:
+  - Apache-2.0
 homepage: https://github.com/huyhoang8398/gitlab-ci-language-server
-repository:
-  type: git
-  url: https://github.com/huyhoang8398/gitlab-ci-language-server
 languages:
   - YAML
 categories:
   - LSP
-binaries:
-  architectures:
-    - x86_64
-  platforms:
-    - linux
-    - macos
-    - windows
-installation:
-  type: archive
-  sources:
-    linux-x86_64: https://github.com/huyhoang8398/gitlab-ci-language-server/releases/download/v1.0.2/gitlab-ci-ls-linux
-  bin:
-    gitlab-ci-ls: gitlab-ci-ls
-lsp:
-  lspconfig:
-    server: gitlab_ci_language_server
-    config:
-      cmd:
-        - ${bin:gitlab-ci-ls}
-        - --stdio
-      filetypes:
-        - yaml.gitlab
-      root_dir: |
-        require('lspconfig.util').root_pattern('.gitlab-ci.yml', '.gitlab')()
-      settings: {}
+source:
+  id: pkg:npm/gitlab-ci-language-server@1.0.2
+schemas:
+  lsp: vscode:https://raw.githubusercontent.com/huyhoang8398/gitlab-ci-language-server/v1.0.2/vscode-client/package.json
+
+bin:
+  bash-language-server: npm:gitlab-ci-language-server
+
+neovim:
+  lspconfig: gitlab-ci-language-server
